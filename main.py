@@ -2,8 +2,8 @@
 
 import settings
 
-from agent.llm_provider import create_llm_provider
-from agent.rag_manager import SchemaRAGManager
+from llm_providers import create_llm_provider
+from rag import SchemaRAGManager
 from agent.sql_agent import SQLAgent
 
 

@@ -9,7 +9,7 @@ CHROMA_DIRECTORY = "chroma_db"
 CHROMA_COLLECTION_NAME = "database_schemas"
 
 # Directory where database schema table JSON files are stored
-DATABASE_SCHEMAS_DIR = "schemas"
+DATABASE_SCHEMAS_DIR = "rag/schemas"
 
 # AWS Bedrock Credentials
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")

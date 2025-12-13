@@ -3,9 +3,12 @@
 import warnings
 warnings.filterwarnings("ignore", message=".*urllib3.*OpenSSL.*", category=Warning)
 
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 import json
 import chromadb
-from pathlib import Path
 from typing import List, Dict, Any, Optional
 
 from settings import CHROMA_DIRECTORY, CHROMA_COLLECTION_NAME, DATABASE_SCHEMAS_DIR

@@ -1,9 +1,9 @@
 """SQL generation agent using RAG and LLM."""
 
 from typing import Dict, Any, List
-from .rag_manager import SchemaRAGManager
-from .llm_provider import LLMProvider
-from .prompts import create_sql_prompt
+from rag import SchemaRAGManager
+from llm_providers import LLMProvider
+from .sql_agent_prompts import create_sql_prompt
 
 
 class SQLAgent:

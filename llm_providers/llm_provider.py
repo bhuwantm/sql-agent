@@ -1,5 +1,8 @@
 """Model-agnostic LLM provider interface."""
-import boto3
+
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from abc import ABC, abstractmethod
 from typing import Optional
@@ -84,6 +87,7 @@ class BedrockProvider(LLMProvider):
         aws_secret_access_key: Optional[str] = None,
         aws_session_token: Optional[str] = None
     ):
+        import boto3
         
         self.model = model
         
