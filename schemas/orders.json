@@ -1,0 +1,56 @@
+{
+  "table_name": "orders",
+  "description": "Stores order information and order details",
+  "business_context": "Tracks all customer orders with status tracking from pending to completed. Links to customers and contains order_items.",
+  "columns": {
+    "id": {
+      "type": "INTEGER",
+      "constraints": "PRIMARY KEY, AUTO_INCREMENT",
+      "description": "Unique order identifier"
+    },
+    "customer_id": {
+      "type": "INTEGER",
+      "constraints": "FOREIGN KEY REFERENCES customers(id)",
+      "description": "References the customer who placed the order"
+    },
+    "order_date": {
+      "type": "TIMESTAMP",
+      "constraints": "DEFAULT CURRENT_TIMESTAMP",
+      "description": "When the order was placed"
+    },
+    "total_amount": {
+      "type": "DECIMAL(10,2)",
+      "constraints": "NOT NULL",
+      "description": "Total order amount in dollars"
+    },
+    "status": {
+      "type": "ENUM('pending', 'processing', 'completed', 'cancelled')",
+      "constraints": "DEFAULT 'pending'",
+      "description": "Current status of the order lifecycle"
+    },
+    "shipping_address": {
+      "type": "TEXT",
+      "constraints": "NULL",
+      "description": "Delivery address for the order"
+    }
+  },
+  "relationships": [
+    {
+      "type": "many_to_one",
+      "related_table": "customers",
+      "foreign_key": "customer_id",
+      "description": "Each order belongs to one customer"
+    },
+    {
+      "type": "one_to_many",
+      "related_table": "order_items",
+      "foreign_key": "order_id",
+      "description": "One order can have many order items"
+    }
+  ],
+  "indexes": ["customer_id", "status", "order_date"],
+  "example_queries": [
+    "SELECT * FROM orders WHERE status = 'completed' AND order_date > '2024-01-01'",
+    "SELECT customer_id, SUM(total_amount) as total_revenue FROM orders GROUP BY customer_id"
+  ]
+}

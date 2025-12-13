@@ -1,0 +1,60 @@
+{
+  "table_name": "products",
+  "description": "Product catalog with inventory information",
+  "business_context": "Master product catalog. Tracks product details, pricing, and inventory levels.",
+  "columns": {
+    "id": {
+      "type": "INTEGER",
+      "constraints": "PRIMARY KEY, AUTO_INCREMENT",
+      "description": "Unique product identifier"
+    },
+    "name": {
+      "type": "VARCHAR(255)",
+      "constraints": "NOT NULL",
+      "description": "Product name"
+    },
+    "description": {
+      "type": "TEXT",
+      "constraints": "NULL",
+      "description": "Detailed product description"
+    },
+    "price": {
+      "type": "DECIMAL(10,2)",
+      "constraints": "NOT NULL",
+      "description": "Current selling price"
+    },
+    "category": {
+      "type": "VARCHAR(100)",
+      "constraints": "NULL",
+      "description": "Product category for grouping"
+    },
+    "stock_quantity": {
+      "type": "INTEGER",
+      "constraints": "DEFAULT 0",
+      "description": "Current inventory level"
+    },
+    "is_active": {
+      "type": "BOOLEAN",
+      "constraints": "DEFAULT TRUE",
+      "description": "Whether product is available for sale"
+    },
+    "created_at": {
+      "type": "TIMESTAMP",
+      "constraints": "DEFAULT CURRENT_TIMESTAMP",
+      "description": "When product was added to catalog"
+    }
+  },
+  "relationships": [
+    {
+      "type": "one_to_many",
+      "related_table": "order_items",
+      "foreign_key": "product_id",
+      "description": "One product can be in many order items"
+    }
+  ],
+  "indexes": ["category", "is_active", "name"],
+  "example_queries": [
+    "SELECT * FROM products WHERE is_active = TRUE AND stock_quantity > 0",
+    "SELECT category, AVG(price) FROM products GROUP BY category"
+  ]
+}

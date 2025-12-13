@@ -1,0 +1,50 @@
+{
+  "table_name": "customers",
+  "description": "Stores customer information, contact details, and preferences",
+  "business_context": "Main table for customer data. Links to orders via customer_id. Track active/inactive status and customer preferences.",
+  "columns": {
+    "id": {
+      "type": "INTEGER",
+      "constraints": "PRIMARY KEY, AUTO_INCREMENT",
+      "description": "Unique customer identifier"
+    },
+    "name": {
+      "type": "VARCHAR(255)",
+      "constraints": "NOT NULL",
+      "description": "Customer full name"
+    },
+    "email": {
+      "type": "VARCHAR(255)",
+      "constraints": "UNIQUE, NOT NULL",
+      "description": "Customer email address for contact"
+    },
+    "phone": {
+      "type": "VARCHAR(20)",
+      "constraints": "NULL",
+      "description": "Customer phone number"
+    },
+    "created_at": {
+      "type": "TIMESTAMP",
+      "constraints": "DEFAULT CURRENT_TIMESTAMP",
+      "description": "When customer record was created"
+    },
+    "status": {
+      "type": "ENUM('active', 'inactive', 'suspended')",
+      "constraints": "DEFAULT 'active'",
+      "description": "Customer account status - active means can place orders"
+    }
+  },
+  "relationships": [
+    {
+      "type": "one_to_many",
+      "related_table": "orders",
+      "foreign_key": "customer_id",
+      "description": "One customer can have many orders"
+    }
+  ],
+  "indexes": ["email", "status", "created_at"],
+  "example_queries": [
+    "SELECT * FROM customers WHERE status = 'active'",
+    "SELECT name, email FROM customers WHERE created_at > '2024-01-01'"
+  ]
+}

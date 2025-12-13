@@ -1,0 +1,52 @@
+{
+  "table_name": "order_items",
+  "description": "Individual items within an order",
+  "business_context": "Line items for orders. Links orders to products with quantity and price information at time of purchase.",
+  "columns": {
+    "id": {
+      "type": "INTEGER",
+      "constraints": "PRIMARY KEY, AUTO_INCREMENT",
+      "description": "Unique order item identifier"
+    },
+    "order_id": {
+      "type": "INTEGER",
+      "constraints": "FOREIGN KEY REFERENCES orders(id)",
+      "description": "References the parent order"
+    },
+    "product_id": {
+      "type": "INTEGER",
+      "constraints": "FOREIGN KEY REFERENCES products(id)",
+      "description": "References the product being ordered"
+    },
+    "quantity": {
+      "type": "INTEGER",
+      "constraints": "NOT NULL, CHECK(quantity > 0)",
+      "description": "Number of units ordered"
+    },
+    "unit_price": {
+      "type": "DECIMAL(10,2)",
+      "constraints": "NOT NULL",
+      "description": "Price per unit at time of order"
+    },
+    "subtotal": {
+      "type": "DECIMAL(10,2)",
+      "constraints": "GENERATED AS (quantity * unit_price)",
+      "description": "Total price for this line item (quantity × unit_price)"
+    }
+  },
+  "relationships": [
+    {
+      "type": "many_to_one",
+      "related_table": "orders",
+      "foreign_key": "order_id",
+      "description": "Each item belongs to one order"
+    },
+    {
+      "type": "many_to_one",
+      "related_table": "products",
+      "foreign_key": "product_id",
+      "description": "Each item references one product"
+    }
+  ],
+  "indexes": ["order_id", "product_id"]
+}

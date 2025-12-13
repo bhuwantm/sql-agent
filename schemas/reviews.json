@@ -1,0 +1,60 @@
+{
+  "table_name": "reviews",
+  "description": "Product reviews and ratings from customers",
+  "business_context": "Tracks customer feedback on products. Links to customers and products. Used for product ratings and quality analysis.",
+  "columns": [
+    {
+      "name": "id",
+      "type": "INTEGER",
+      "constraints": ["PRIMARY KEY", "AUTO_INCREMENT"],
+      "description": "Unique review identifier"
+    },
+    {
+      "name": "product_id",
+      "type": "INTEGER",
+      "constraints": ["NOT NULL", "FOREIGN KEY -> products.id"],
+      "description": "References the product being reviewed"
+    },
+    {
+      "name": "customer_id",
+      "type": "INTEGER",
+      "constraints": ["NOT NULL", "FOREIGN KEY -> customers.id"],
+      "description": "References the customer who wrote the review"
+    },
+    {
+      "name": "rating",
+      "type": "INTEGER",
+      "constraints": ["NOT NULL", "CHECK (rating >= 1 AND rating <= 5)"],
+      "description": "Star rating from 1 to 5"
+    },
+    {
+      "name": "comment",
+      "type": "TEXT",
+      "constraints": [],
+      "description": "Customer's written review text"
+    },
+    {
+      "name": "created_at",
+      "type": "TIMESTAMP",
+      "constraints": ["DEFAULT CURRENT_TIMESTAMP"],
+      "description": "When the review was submitted"
+    },
+    {
+      "name": "is_verified_purchase",
+      "type": "BOOLEAN",
+      "constraints": ["DEFAULT FALSE"],
+      "description": "Whether the reviewer actually purchased the product"
+    }
+  ],
+  "relationships": [
+    "Each review belongs to one product",
+    "Each review is written by one customer",
+    "A product can have many reviews"
+  ],
+  "indexes": ["product_id", "customer_id", "rating"],
+  "example_queries": [
+    "Get average rating for a product",
+    "Find all 5-star reviews",
+    "Get reviews from verified purchasers"
+  ]
+}
