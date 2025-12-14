@@ -34,7 +34,8 @@ After the SQL query, provide a brief explanation of:
 def create_sql_prompt(
     business_logic: str,
     schema_context: str,
-    explain: bool = False
+    explain: bool = False,
+    conversation_history: list = None
 ) -> str:
     """
     Create a complete SQL generation prompt (user message).
@@ -46,6 +47,7 @@ def create_sql_prompt(
         business_logic: Natural language description of what to query
         schema_context: Formatted database schema context
         explain: Whether to include explanation instruction
+        conversation_history: List of previous conversation turns (optional)
         
     Returns:
         Complete prompt string
@@ -58,12 +60,22 @@ def create_sql_prompt(
         explanation_section = ""
         output_format = "Return ONLY the SQL query. Do not include any explanation, description, or additional text."
     
+    # Format conversation history if provided (already optimized by caller)
+    history_context = ""
+    if conversation_history:
+        history_context = "\n## Previous Conversation:\n"
+        for i, turn in enumerate(conversation_history, 1):
+            history_context += f"\nTurn {i}:\n"
+            history_context += f"User: {turn['user']}\n"
+            history_context += f"Assistant: {turn['assistant']}\n"
+        history_context += "\n## Current Request:\n"
+    
     # Combine system prompt + user message for single-prompt models
     prompt = f"""{SYSTEM_PROMPT}
 
 ## Database Schema (Relevant Tables Only):
 {schema_context}
-
+{history_context}
 ## Business Logic:
 {business_logic}
 
