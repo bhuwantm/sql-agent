@@ -1,6 +1,6 @@
 """Utility script to inspect ChromaDB contents."""
 
-from agent.rag_manager import SchemaRAGManager
+from rag_manager import SchemaRAGManager
 import settings
 import json
 
